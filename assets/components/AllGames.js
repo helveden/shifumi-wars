@@ -39,12 +39,28 @@ class AllGames extends Component {
                     <thead>
                         <tr>
                             <th>Nom</th>
+                            <th>Joueurs</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Classic - Well</td>
+                            <td>Classic - Tournoi - Well - No password</td>
+                            <td>2 / 8</td>
+                            <td>
+                                <ul class="d-flex">
+                                    <li>
+                                        <button>Show</button>
+                                    </li>
+                                    <li>
+                                        <button>Rejoindre</button>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Etendu - 1v1 - No well - With password</td>
+                            <td>1 / 1</td>
                             <td>
                                 <ul class="d-flex">
                                     <li>
