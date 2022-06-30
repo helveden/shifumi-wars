@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Shifumi Wars!{% endblock %}
+{% block title %}{{ 'pages.default.title'|trans }}{% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                <h1>{{ 'pages.default.h1'|trans }}</h1>  
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <div id="allgames"></div>
                 {% endif %}
