@@ -4,7 +4,8 @@ import FormGame from './Game/Form';
 
 import { Modal, Button } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
-
+ 
+import Icon from './partials/Icon'
 
 class AllGames extends Component {
     
@@ -66,14 +67,25 @@ class AllGames extends Component {
                     <thead>
                         <tr>
                             <th>{t('allgames.table.head.name')}</th>
+                            <th>{t('allgames.table.head.config')}</th>
                             <th>{t('allgames.table.head.players')}</th>
                             <th>{t('allgames.table.head.actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Classic - Tournoi - Well - No password</td>
-                            <td>2 / 8</td>
+                            <td>Nom du jeu</td>
+                            <td>
+                                <ul className="d-flex align-items-center game-name-list">
+                                    <li>Classic - Tournoi - Well - No password</li>
+                                    <li><Icon icon="paper"/></li>
+                                    <li><Icon icon="rock"/></li>
+                                    <li><Icon icon="scissors"/></li>
+                                    <li><Icon icon="spock"/></li>
+                                    <li><Icon icon="lizard"/></li>
+                                </ul>
+                            </td>
+                            <td><span className="d-flex align-items-center">2 / 8&nbsp;<Icon icon="usergroup"/></span></td>
                             <td>
                                 <ul className="d-flex">
                                     <li>
