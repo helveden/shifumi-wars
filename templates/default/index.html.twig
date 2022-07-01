@@ -9,6 +9,11 @@
                 <h1>{{ 'pages.default.h1'|trans }}</h1>  
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <div id="allgames"></div>
+                {% else %}
+                    <nav>
+                        <ul><a href="/login">Login</a></ul>
+                        <ul><a href="/register">Register</a></ul>
+                    </nav>    
                 {% endif %}
             </div>
         </div>

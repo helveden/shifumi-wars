@@ -1,9 +1,10 @@
 pages:
   default:
     title: Shifumi Wars
-    h1: Shifumi Wars
+    h1: Sh
     
 react:
   allgames:
+    title: All Games
   game:
 
