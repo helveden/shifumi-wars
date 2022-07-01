@@ -2,22 +2,52 @@ pages:
   default:
     title: Shifumi Wars
     h1: Sh
-    
-react:
-  allgames:
-    title: All Games
-    nav:
-      buttons:
-        create_game: Create Game
-        find_game: Find Game
+  
+allgames:
+  title: All Games
+  nav:
+    buttons:
+      create_game: Create Game
+      find_game: Find Game
 
-    table:
-      head:
-        name: Name
-        players: Players
-        actions: Actions
-      actions:
-        show: Show
-        meet: Meet
-  game:
+  table:
+    head:
+      name: Name
+      players: Players
+      actions: Actions
+    actions:
+      show: Show
+      meet: Meet
+
+forms:
+  submit:
+    label: Submit
+  reset:
+    label: Reset
+  errors:
+    required: This field is require !
+
+game:
+  create: Create Game
+  update: Update Game
+  show: Show
+  delete: Delete Game
+
+  fields:
+    name:
+      label: Make a Name
+      placeholder: Name
+      small:
+    password:
+      label: Make a Password
+      placeholder: Password
+      small:
+    mode:
+      label: Make a mode
+      small:
+      options:
+        empty: Choose a mode
+        classic: Classic
+        extend: Extented
+
 

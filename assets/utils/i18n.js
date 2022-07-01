@@ -13,7 +13,7 @@ i18n
             //     translation: frYaml,
             // }, 
             en: {
-                translation: enYaml.react,
+                translation: enYaml,
             },
         },
         lng: (window && window.locale) || 'en',

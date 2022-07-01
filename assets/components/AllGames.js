@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Game from './Game';
+import FormGame from './Game/Form';
 
 import { Modal, Button } from 'react-bootstrap';
-
 import { withTranslation } from 'react-i18next';
 
 
@@ -58,7 +58,7 @@ class AllGames extends Component {
                 <p>{t('allgames.title')}</p>
                 <nav>
                     <ul className="d-flex">
-                        <li><button onClick={this.handleShow}>{t('allgames.nav.buttons.create_game')}</button></li>
+                        <li><button onClick={this.handleShow}>{t('game.create')}</button></li>
                         <li><button>{t('allgames.nav.buttons.find_game')}</button></li>
                     </ul>
                 </nav>
@@ -85,34 +85,17 @@ class AllGames extends Component {
                                 </ul>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Etendu - 1v1 - No well - With password</td>
-                            <td>1 / 1</td>
-                            <td>
-                                <ul className="d-flex">
-                                    <li>
-                                        <button>{t('allgames.table.actions.show')}</button>
-                                    </li>
-                                    <li>
-                                        <button>{t('allgames.table.actions.meet')}</button>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
                 <Modal show={show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>{t('game.create')}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                    <Modal.Body>
+                        <FormGame />
+                    </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleClose}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={this.handleClose}>
-                            Save Changes
-                        </Button>
+                        
                     </Modal.Footer>
                 </Modal>
             </>
