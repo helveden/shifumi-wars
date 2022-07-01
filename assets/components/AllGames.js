@@ -3,7 +3,7 @@ import Game from './Game';
 
 import { Modal, Button } from 'react-bootstrap';
 
-import { useTranslation, withTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 
 class AllGames extends Component {
@@ -58,16 +58,16 @@ class AllGames extends Component {
                 <p>{t('allgames.title')}</p>
                 <nav>
                     <ul className="d-flex">
-                        <li><button onClick={this.handleShow}>Create Game</button></li>
-                        <li><button>Rejoindre une Game</button></li>
+                        <li><button onClick={this.handleShow}>{t('allgames.nav.buttons.create_game')}</button></li>
+                        <li><button>{t('allgames.nav.buttons.find_game')}</button></li>
                     </ul>
                 </nav>
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>Nom</th>
-                            <th>Joueurs</th>
-                            <th>Actions</th>
+                            <th>{t('allgames.table.head.name')}</th>
+                            <th>{t('allgames.table.head.players')}</th>
+                            <th>{t('allgames.table.head.actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,10 +77,10 @@ class AllGames extends Component {
                             <td>
                                 <ul className="d-flex">
                                     <li>
-                                        <button>Show</button>
+                                        <button>{t('allgames.table.actions.show')}</button>
                                     </li>
                                     <li>
-                                        <button>Rejoindre</button>
+                                        <button>{t('allgames.table.actions.meet')}</button>
                                     </li>
                                 </ul>
                             </td>
@@ -91,10 +91,10 @@ class AllGames extends Component {
                             <td>
                                 <ul className="d-flex">
                                     <li>
-                                        <button>Show</button>
+                                        <button>{t('allgames.table.actions.show')}</button>
                                     </li>
                                     <li>
-                                        <button>Rejoindre</button>
+                                        <button>{t('allgames.table.actions.meet')}</button>
                                     </li>
                                 </ul>
                             </td>

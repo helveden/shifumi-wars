@@ -6,5 +6,18 @@ pages:
 react:
   allgames:
     title: All Games
+    nav:
+      buttons:
+        create_game: Create Game
+        find_game: Find Game
+
+    table:
+      head:
+        name: Name
+        players: Players
+        actions: Actions
+      actions:
+        show: Show
+        meet: Meet
   game:
 
