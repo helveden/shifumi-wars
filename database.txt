@@ -1,0 +1,38 @@
+Game
+
+id
+name
+mode
+type
+status         // wait - wait players - start - end - abort
+well_status
+players        // array de user
+createdAt
+updatedAt
+deletedAt
+
+
+Round
+
+id
+game           // game_id
+players        // array de user
+order          //
+winner
+looser
+drawer
+status         // wait - start - end - abort
+
+
+User Round
+id
+user           // user_id
+round          // round_id
+choice
+result         // 
+createdAt
+updatedAt
+
+
+User 
+currentGame    // permet de savoir s'il est déjà dans une partie pour le bloquer

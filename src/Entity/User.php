@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -41,6 +43,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserRound::class, mappedBy="user")
+     */
+    private $userRounds;
+
+    public function __construct()
+    {
+        $this->userRounds = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -139,6 +151,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserRound>
+     */
+    public function getUserRounds(): Collection
+    {
+        return $this->userRounds;
+    }
+
+    public function addUserRound(UserRound $userRound): self
+    {
+        if (!$this->userRounds->contains($userRound)) {
+            $this->userRounds[] = $userRound;
+            $userRound->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRound(UserRound $userRound): self
+    {
+        if ($this->userRounds->removeElement($userRound)) {
+            // set the owning side to null (unless already changed)
+            if ($userRound->getUser() === $this) {
+                $userRound->setUser(null);
+            }
+        }
 
         return $this;
     }

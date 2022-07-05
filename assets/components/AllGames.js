@@ -14,9 +14,9 @@ class AllGames extends Component {
         
         this.state = {
             openGame: false,
+            roomId: 0,
             showCreateGame: false,
             datas: [],
-            rounds: [],
             filters: {}
         };
 
@@ -27,8 +27,6 @@ class AllGames extends Component {
         this.handleOpenGame = this.handleOpenGame.bind(this);
         this.handleCloseGame = this.handleCloseGame.bind(this);
 
-        
-        this.addRound = this.addRound.bind(this);
         
         // this.handleChange = this.handleChange.bind(this);
         // this.handleSubmit = this.handleSubmit.bind(this);
@@ -60,22 +58,15 @@ class AllGames extends Component {
 
     handleOpenGame(event) {
         this.setState({
-            openGame: true
+            openGame: true,
+            roomId: event,
         });
     }
 
     handleCloseGame(event) {
         this.setState({
-            openGame: false
-        });
-    }
-
-    addRound(select) {
-        this.state.rounds.push({msg: select});
-
-        let rounds = this.state.rounds
-        this.setState({
-            rounds: rounds
+            openGame: false,
+            roomId: 0,
         });
     }
     
@@ -84,6 +75,7 @@ class AllGames extends Component {
         const showCreateGame = this.state.showCreateGame  
         const openGame = this.state.openGame
         const rounds = this.state.rounds
+        const roomCurrent = this.state.roomId
         
         return (
             <>
@@ -95,34 +87,13 @@ class AllGames extends Component {
                         <li><button>{t('allgames.nav.buttons.find_game')}</button></li>
                     </ul>
                 </nav>
-                { openGame ? 
-                    <div id='game'>
-                        <div className=''>
-                            <section className='wrap-game'>
-                                <header className='game-header '>
-                                    <nav>
-                                        <ul className='game-nav d-flex justify-content-end align-items-center'>
-                                            <li><button onClick={this.handleCloseGame}><Icon icon='close'/></button></li>
-                                        </ul>
-                                    </nav>
-                                </header>
-                                <div className='game-content'>
-                                    <ul>                                        
-                                        {rounds.map((round, index) => {
-                                            return <li key={index} className="round">{round.msg}</li>
-                                        })}
-                                    </ul>
-                                </div>
-                                <footer>
-                                    <ul className='game-actions d-flex justify-content-center align-items-center'>
-                                        <li><button onClick={() => {this.addRound('paper')}}><Icon icon='paper'/></button></li>
-                                        <li><button onClick={() => {this.addRound('rock')}}><Icon icon='rock'/></button></li>
-                                        <li><button onClick={() => {this.addRound('scissors')}}><Icon icon='scissors'/></button></li>
-                                    </ul>
-                                </footer>
-                            </section>
-                        </div>
-                    </div>
+                { openGame && roomCurrent > 0 ? 
+                    <>
+                        <Game
+                            room={roomCurrent}
+                            clickHandler={this.handleCloseGame}
+                        />
+                    </>
                     :                    
                     <table className='table'>
                         <thead>
@@ -150,7 +121,38 @@ class AllGames extends Component {
                                 <td>
                                     <ul className='d-flex'>
                                         <li>
-                                            <button onClick={this.handleOpenGame}>{t('allgames.table.actions.show')}</button>
+                                            <button onClick={() => {this.handleOpenGame('123')}}>{t('allgames.table.actions.show')}</button>
+                                        </li>
+                                        <li>
+                                            <button>{t('allgames.table.actions.edit')}</button>
+                                        </li>
+                                        <li>
+                                            <button>{t('allgames.table.actions.meet')}</button>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>Nom du jeu</td>
+                                <td>
+                                    <ul className='d-flex align-items-center game-name-list'>
+                                        <li>Classic - Tournoi - Well - No password</li>
+                                        <li><Icon icon='paper'/></li>
+                                        <li><Icon icon='rock'/></li>
+                                        <li><Icon icon='scissors'/></li>
+                                        <li><Icon icon='spock'/></li>
+                                        <li><Icon icon='lizard'/></li>
+                                    </ul>
+                                </td>
+                                <td><span className='d-flex align-items-center'>2 / 8&nbsp;<Icon icon='usergroup'/></span></td>
+                                <td>
+                                    <ul className='d-flex'>
+                                        <li>
+                                            <button onClick={() => {this.handleOpenGame('456')}}>{t('allgames.table.actions.show')}</button>
+                                        </li>
+                                        <li>
+                                            <button>{t('allgames.table.actions.edit')}</button>
                                         </li>
                                         <li>
                                             <button>{t('allgames.table.actions.meet')}</button>

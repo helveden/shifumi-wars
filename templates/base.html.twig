@@ -14,6 +14,7 @@
     <body>
         {% block body %}{% endblock %}
 
+        <script src="{{ asset('bundles/goswebsocket/js/vendor/autobahn.min.js') }}"></script>
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

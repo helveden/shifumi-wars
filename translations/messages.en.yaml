@@ -18,6 +18,7 @@ allgames:
       actions: Actions
     actions:
       show: Show
+      edit: Edit
       meet: Meet
 
 forms:
