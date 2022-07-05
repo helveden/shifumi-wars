@@ -74,7 +74,6 @@ class AllGames extends Component {
         const { t } = this.props;
         const showCreateGame = this.state.showCreateGame  
         const openGame = this.state.openGame
-        const rounds = this.state.rounds
         const roomCurrent = this.state.roomId
         
         return (
@@ -94,7 +93,7 @@ class AllGames extends Component {
                             clickHandler={this.handleCloseGame}
                         />
                     </>
-                    :                    
+                :
                     <table className='table'>
                         <thead>
                             <tr>
