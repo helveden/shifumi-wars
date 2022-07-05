@@ -16,9 +16,9 @@
                         </ul>
                     </nav>
                 </header>
-                <h1>{{ 'pages.default.h1'|trans }}</h1>  
+                <h1>{{ 'pages.default.h1'|trans }}</h1>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <div id="allgames"></div>
+                    <div id="allgames" data-user="{{ app.user.toArray | json_encode }}"></div>
                 {% else %}
                     <nav>
                         <ul><a href="/login">Login</a></ul>

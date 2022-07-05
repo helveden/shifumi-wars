@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 import Game from './Game';
 import FormGame from './Game/Form';
 
@@ -13,6 +14,7 @@ class AllGames extends Component {
         super(props);
         
         this.state = {
+            currentUser: props.user,
             openGame: false,
             roomId: 0,
             showCreateGame: false,
@@ -56,7 +58,22 @@ class AllGames extends Component {
         });
     } 
 
-    handleOpenGame(event) {
+    async handleOpenGame(event) {
+        // Ajout du joueur dans la partie
+        await axios.post('/game/new-player', {
+            user: this.state.currentUser
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+        });  
+
+
         this.setState({
             openGame: true,
             roomId: event,

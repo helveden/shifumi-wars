@@ -32,11 +32,13 @@ if(document.getElementById('default') !== null) {
 
 if(document.getElementById('allgames') !== null) {
     var root = createRoot(document.getElementById('allgames'));
-    if(typeof document.getElementById('allgames').dataset.page !== 'undefined') {
-        var datas = JSON.parse(document.getElementById('allgames').dataset.page);
-        var elt = <AllGames datas={datas} />;
+    if(typeof document.getElementById('allgames').dataset.user !== 'undefined') {
+        var datas = [];
+        var user = JSON.parse(document.getElementById('allgames').dataset.user);
+        
+        var elt = <AllGames datas={datas} user={user} />;
     } else {
-        var elt = <AllGames />;
+        var elt = <AllGames />; 
     }
     
     root.render(elt);
