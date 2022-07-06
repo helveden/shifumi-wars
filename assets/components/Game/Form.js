@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { withTranslation } from 'react-i18next';
+import axios from 'axios';
 
 
 class Form extends Component {
@@ -41,15 +42,17 @@ class Form extends Component {
     
     async handleSubmit(event) {
         event.preventDefault();
-        // var results = await axios.get(urls.getAddress + this.state.value.replaceAll(/\s/g, '+'))
-        // .then(function(response) {
-        //     return response;
-        // });
-        // this.state.ws.session.publish('acme/channel/' + this.props.datas.roomId, { datas: this.state.newcomment });
+        var results = await axios.post('/game/create', this.state)
+        .then(function(response) {
+            return response;
+        });
+        console.log(results)
+        // this.state.ws.session.publish('acme/channel/' + this.props.datas.roomId, { datas: this.state.newcomment }); 
     }
     
     render() {
         const { t } = this.props;
+
         return (
             <>
                 <form
