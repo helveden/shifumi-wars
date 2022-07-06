@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import { withTranslation } from 'react-i18next';
 
-
-class Round extends Component {
+class EndRound extends Component {
     
     constructor(props) {
         super(props);
@@ -29,4 +28,4 @@ class Round extends Component {
         ) 
     }
 }
-export default withTranslation()(Round);
+export default withTranslation()(EndRound);

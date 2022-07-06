@@ -5,14 +5,15 @@ import WS from '../../vendor/gos/web-socket-bundle/public/js/websocket.min.js';
 
 import Icon from './partials/Icon'
 
-import Round from './Game/Round'
+import Round from './Round/Round'
 
 class Game extends Component {
     
     constructor(props) {
         super(props);
-        console.log(props)
+        
         this.state = {
+            currentuser: props.currentuser,
             rounds: [],
             ws: WS.connect('ws://127.0.0.1:8080')
         };
@@ -71,7 +72,7 @@ class Game extends Component {
 
     addRound(select) {
         
-        this.state.ws.session.publish('acme/channel/' + this.props.room, { msg: select });
+        this.state.ws.session.publish('acme/channel/' + this.props.room, { msg: select, user: this.props.currentuser });
 
     }
     

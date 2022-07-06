@@ -36,7 +36,7 @@ if(document.getElementById('allgames') !== null) {
         var datas = [];
         var user = JSON.parse(document.getElementById('allgames').dataset.user);
         
-        var elt = <AllGames datas={datas} user={user} />;
+        var elt = <AllGames datas={datas} currentuser={user} />;
     } else {
         var elt = <AllGames />; 
     }
