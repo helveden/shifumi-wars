@@ -11,6 +11,7 @@ class Round extends Component {
         super(props);
         
         this.state = {
+            players: props.players,
             round: props.round
         }
         
@@ -18,6 +19,9 @@ class Round extends Component {
     
     componentDidMount() {
         // changement de status pour wait ici
+        if(this.state.round.status == 1) {
+            
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -52,12 +56,14 @@ class Round extends Component {
         const { t } = this.props;
         const round = this.state.round
         const status = round.status
+        const players = this.state.players
 
         return (
             <>
                 { status == 1 ?
                     <>
                         <WaitRound 
+                            players={players}
                             round={round} 
                             currentuser={this.props.currentuser}
                         />

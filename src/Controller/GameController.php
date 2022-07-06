@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\Game;
 use App\Repository\GameRepository;
+use App\Repository\UserRepository;
 
 use Symfony\Component\Serializer\SerializerInterface; 
 
@@ -23,6 +24,16 @@ class GameController extends AbstractController
         $datas = [];
         
         $datas['games'] = $gameRepo->findAll();
+        return $this->json($datas);
+    }
+    /**
+     * @Route("/game/show/{id}", name="app_game_show")
+     */
+    public function show(GameRepository $gameRepo, UserRepository $userRepo, $id): Response
+    {
+        $datas = [];
+        $datas['game'] = $gameRepo->find($id);
+        $datas['players'] = $userRepo->findBy(['id' => $datas['game']->getPlayers()]);
         return $this->json($datas);
     }
 
@@ -47,6 +58,7 @@ class GameController extends AbstractController
 
         $entityManager->persist($game);
         $entityManager->flush();
+
         $datas['game'] = $game->getId();
         // Insertion du joueur dans le jeux
 
@@ -54,14 +66,23 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("/game/new-player", name="app_game_new_player")
+     * @Route("/game/new-player/{id}", name="app_game_new_player")
      */
-    public function newPlayer(Request $request): Response
+    public function newPlayer(Request $request, EntityManagerInterface $entityManager, GameRepository $gameRepo, $id): Response
     {
         $datas = [];
 
-        // dump($request->getContent());die;
+        // dump($gameRepo->find($id));die;
+        $game = $gameRepo->find($id);
+        if(!in_array($this->getUser()->getId(), $game->getPlayers())):
+            $players = array_merge($game->getPlayers(), [$this->getUser()->getId()]);
+            $game->setPlayers($players);
 
+            $entityManager->persist($game); 
+            $entityManager->flush();
+        else:
+            $datas['msg'] = 'Deja inscrit';
+        endif;
         // Insertion du joueur dans le jeux
 
         return $this->json($datas);

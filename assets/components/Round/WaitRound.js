@@ -7,7 +7,8 @@ class WaitRound extends Component {
         super(props);
         
         this.state = {
-            round: props.round
+            round: props.round,
+            players: props.players
         }
         
     }
@@ -16,6 +17,7 @@ class WaitRound extends Component {
         const { t } = this.props;
         const round = this.state.round
         const users = round.users // liste du tableau mis en base quand le joueur qui créer la partie arrive dans la partie ainsi que les autres joueurs puis relier avec WS user_id
+        const players = this.state.players
 
         return (
             <> 
@@ -27,7 +29,7 @@ class WaitRound extends Component {
                             // Difficulté comment bien passer les changements en WS 
                             // Solution Aiguiller les données dans le payload
                         }
-                        {users.map((user, i) => {
+                        {players.map((user, index) => {
                             return <li key={index} className="comment">{user.username} 
                                 {
                                     user.id == this.props.currentuser ?

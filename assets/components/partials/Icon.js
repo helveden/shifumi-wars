@@ -9,7 +9,7 @@ import HandSpock from '../../pictures/svg/hand-spock-solid.svg';
 import User from '../../pictures/svg/user-solid.svg';
 import UserGroup from '../../pictures/svg/user-group-solid.svg';
 import CloseFill from '../../pictures/svg/x-circle-fill.svg';
-import Close from '../../pictures/svg/x.svg';
+import Close from '../../pictures/svg/x.svg'; 
 
 class Icon extends Component {
     
