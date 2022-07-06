@@ -54,6 +54,11 @@ class Game
      */
     private $rounds;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="games")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->rounds = new ArrayCollection();
@@ -165,4 +170,16 @@ class Game
 
         return $this;
     }
+
+    public function getUser(): array
+    {
+        return $this->user->toArray();
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    } 
 }

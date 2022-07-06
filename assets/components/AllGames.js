@@ -35,8 +35,7 @@ class AllGames extends Component {
     
     async componentDidMount() {
         // rechercher les parties existantes
-        var results = await axios.get('/game')
-        .then(function(response) {
+        var results = await axios.get('/game').then(function(response) {
             return response;
         });
         
@@ -87,7 +86,6 @@ class AllGames extends Component {
         const { t } = this.props;
         const showCreateGame = this.state.showCreateGame  
         const openGame = this.state.openGame
-        const rounds = this.state.rounds
         const roomCurrent = this.state.roomId
         const games = this.state.games
         
@@ -120,35 +118,35 @@ class AllGames extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                            {games.map((game, index) => {
-                                
-                                return <tr key={index}>
-                                            <td>{game.name}</td>
-                                            <td>
-                                                <ul className='d-flex align-items-center game-name-list'>
-                                                    <li>Classic - Tournoi - Well - No password</li>
-                                                    <li><Icon icon='paper'/></li>
-                                                    <li><Icon icon='rock'/></li>
-                                                    <li><Icon icon='scissors'/></li>
-                                                    <li><Icon icon='spock'/></li>
-                                                    <li><Icon icon='lizard'/></li>
-                                                </ul>
-                                            </td>
-                                            <td><span className='d-flex align-items-center'>2 / 8&nbsp;<Icon icon='usergroup'/></span></td>
-                                            <td>
-                                                <ul className='d-flex'>
-                                                    <li>
-                                                        <button onClick={() => {this.handleOpenGame(game.id)}}>{t('allgames.table.actions.show')}</button>
-                                                    </li>
-                                                    <li>
-                                                        <button>{t('allgames.table.actions.edit')}</button>
-                                                    </li>
-                                                    <li>
-                                                        <button>{t('allgames.table.actions.meet')}</button>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
+                                    {games.map((game, index) => {
+                                        
+                                        return <tr key={index}>
+                                                    <td>{game.name}</td>
+                                                    <td>
+                                                        <ul className='d-flex align-items-center game-name-list'>
+                                                            <li>Classic - Tournoi - Well - No password</li>
+                                                            <li><Icon icon='paper'/></li>
+                                                            <li><Icon icon='rock'/></li>
+                                                            <li><Icon icon='scissors'/></li>
+                                                            <li><Icon icon='spock'/></li>
+                                                            <li><Icon icon='lizard'/></li>
+                                                        </ul>
+                                                    </td>
+                                                    <td><span className='d-flex align-items-center'>2 / 8&nbsp;<Icon icon='usergroup'/></span></td>
+                                                    <td>
+                                                        <ul className='d-flex'>
+                                                            <li>
+                                                                <button onClick={() => {this.handleOpenGame(game.id)}}>{t('allgames.table.actions.show')}</button>
+                                                            </li>
+                                                            <li>
+                                                                <button>{t('allgames.table.actions.edit')}</button>
+                                                            </li>
+                                                            <li>
+                                                                <button>{t('allgames.table.actions.meet')}</button>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
                                     })}
                             </tbody>
                         </table>

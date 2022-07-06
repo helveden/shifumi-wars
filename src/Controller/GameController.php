@@ -11,6 +11,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Game;
 use App\Repository\GameRepository;
 
+use Symfony\Component\Serializer\SerializerInterface; 
+
 class GameController extends AbstractController
 {
     /**
@@ -19,6 +21,7 @@ class GameController extends AbstractController
     public function index(GameRepository $gameRepo): Response
     {
         $datas = [];
+        
         $datas['games'] = $gameRepo->findAll();
         return $this->json($datas);
     }
@@ -39,6 +42,8 @@ class GameController extends AbstractController
         $game->setStatus(1);
         $game->setWellStatus(1);
         // $game->setPassword($req['password']);
+
+        $game->setUser($this->getUser());
 
         $entityManager->persist($game);
         $entityManager->flush();
