@@ -14,6 +14,7 @@ class Game extends Component {
         super(props);
         
         this.state = {
+            api: window.location.origin,
             room: props.room,
             players: props.players,
             currentuser: props.currentuser,
@@ -57,6 +58,12 @@ class Game extends Component {
                     that.addRound('log', {msg: that.state.currentuser.email + payload.msg, user: result.currentuser})
                 }
             
+                if(payload.event == 'test') {
+                    result = {
+                        rounds: that.state.rounds.concat(payload),
+                    }
+                }
+            
                 if(payload.event == 'publish') {                
                     result = {
                         rounds: that.state.rounds.concat(payload),
@@ -94,6 +101,7 @@ class Game extends Component {
     }
 
     addRound(type, params) {
+        // Possible que toutes ses conditions soit uniquement gérer dans le manager uniquement, les translations seront surement finalisé dans React grace aux clés envoyé dans le manager
         if(type == 'log') {
             this.state.ws.session.publish('acme/channel/' + this.props.room, { type: type, msg: params.msg, params: params });
         } else if(type == 'ready') {
@@ -161,6 +169,7 @@ class Game extends Component {
                                     <li><button onClick={() => {this.addRound('choice', 'paper')}}><Icon icon='paper'/></button></li>
                                     <li><button onClick={() => {this.addRound('choice', 'rock')}}><Icon icon='rock'/></button></li>
                                     <li><button onClick={() => {this.addRound('choice', 'scissors')}}><Icon icon='scissors'/></button></li>
+                                    <li><button className='rotate' onClick={console.log('loading')}><Icon icon='loading'/></button></li>
                                 </ul>
                             </footer>
                         </section>

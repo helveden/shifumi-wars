@@ -9,6 +9,7 @@ use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
 
 use App\Manager\ManageGame;
+use App\Repository\GameRepository;
 
 final class AcmeTopic implements TopicInterface
 {
@@ -94,20 +95,24 @@ final class AcmeTopic implements TopicInterface
                 'event'   => 'publish',
                 'user_id' => $connection->resourceId
             ]));
-        }
-
-
-        // Manage Game Here et envoie des données aux joueurs
-        $manageGame = new ManageGame();
-
-
-        // On retourn les résultats
         
-        $topic->broadcast(
-            [
-                'msg' => 'test de l\'envoi du message'
-            ]
-        );
+            if(!empty($event['params']['api'])):
+
+                // Manage Game Here et envoie des données aux joueurs
+                $manageGame = new ManageGame($event['params']['api']);
+                // On récupère les données envoyé par l'utilisateur, quand il fait un choix on lock les actions user puis on envoi
+                // On retourne les résultats
+                
+                $topic->broadcast(
+                    [
+                        'event'   => 'test',
+                        'type'   => 'log',
+                        'msg' => 'ws.test.translation',
+                        'game' => $manageGame->getGame(8) // remplacer par un hash de partie > Voir Topic ID $topic->getId() pour gérer cette situation
+                    ]
+                );
+            endif;
+        }
         
     }
 

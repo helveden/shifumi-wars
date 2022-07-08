@@ -1,6 +1,7 @@
 import React, {Component} from 'react'; 
 
 
+import Loading from '../../pictures/svg/spinner-solid.svg';
 import HandPaper from '../../pictures/svg/hand-solid.svg';
 import HandRock from '../../pictures/svg/hand-back-fist-solid.svg';
 import HandLizard from '../../pictures/svg/hand-lizard-solid.svg';
@@ -23,6 +24,7 @@ class Icon extends Component {
         }
 
         this.state.allSvg = {}
+        this.state.allSvg['loading'] = Loading,
         this.state.allSvg['paper'] = HandPaper,
         this.state.allSvg['rock'] = HandRock,
         this.state.allSvg['lizard'] = HandLizard,

@@ -18,7 +18,7 @@ class LogRound extends Component {
 
         return (
             <>
-                <li className="round">{round.msg}</li>
+                <li className="round">{t(round.msg)}</li>
             </>  
         ) 
     }

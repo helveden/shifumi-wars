@@ -1,4 +1,5 @@
 gos_web_socket:
+
     server:
         # The host IP address on the server which connections for the websocket server are accepted.
         host: 127.0.0.1

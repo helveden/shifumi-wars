@@ -52,4 +52,6 @@ game:
         classic: Classic
         extend: Extented
 
-
+ws:
+  test:
+    translation: 'Test translation'
