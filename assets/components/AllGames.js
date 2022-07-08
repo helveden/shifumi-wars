@@ -35,7 +35,7 @@ class AllGames extends Component {
     
     async componentDidMount() {
         // rechercher les parties existantes
-        var results = await axios.get('/game').then(function(response) {
+        var results = await axios.get('/games').then(function(response) {
             return response;
         });
         
@@ -69,10 +69,7 @@ class AllGames extends Component {
     handleOpenGame(event) {
         // Ajoute le joueur dans la partie
 
-        this.setState({
-            openGame: true,
-            roomId: event,
-        });
+        window.location.href = '/game/play/' + event
     }
 
     handleCloseGame(event) {

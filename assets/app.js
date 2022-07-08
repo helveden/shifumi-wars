@@ -21,6 +21,7 @@ import './utils/i18n';
 
 import Default from './components/Default';
 import AllGames from './components/AllGames';
+import Game from './components/Game';
 
 
 // Default
@@ -39,6 +40,21 @@ if(document.getElementById('allgames') !== null) {
         var elt = <AllGames datas={datas} currentuser={user} />;
     } else {
         var elt = <AllGames />; 
+    }
+    
+    root.render(elt);
+}
+
+if(document.getElementById('wgame') !== null) {
+    var root = createRoot(document.getElementById('wgame'));
+    if(typeof document.getElementById('wgame').dataset.game !== 'undefined') {
+        var game = JSON.parse(document.getElementById('wgame').dataset.game);
+        var players = JSON.parse(document.getElementById('wgame').dataset.players);
+        var room = document.getElementById('wgame').dataset.room;
+        console.log(game, players)
+        var elt = <Game room={room} game={game} players={players} />;
+    } else {
+        var elt = <Game />; 
     }
     
     root.render(elt);

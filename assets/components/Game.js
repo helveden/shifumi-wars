@@ -12,12 +12,13 @@ class Game extends Component {
     
     constructor(props) {
         super(props);
-        
+        console.log(props)
         this.state = {
+            room: props.room,
+            players: props.players,
             currentuser: props.currentuser,
             rounds: [],
-            ws: WS.connect('ws://127.0.0.1:8080'),
-            players: []
+            ws: WS.connect('ws://127.0.0.1:8080')
         };
         
         this.addRound = this.addRound.bind(this);
@@ -39,25 +40,13 @@ class Game extends Component {
             });
             
             
-            session.subscribe('acme/channel/' + that.props.room, async function (uri, payload) {
+            session.subscribe('acme/channel/' + that.state.room, async function (uri, payload) {
                 var result = {};
                 console.log(payload)
                 if(payload.event == 'subscribe') {                
                     result = {
                         // contacts: that.state.contacts.concat(payload.user_id)
-                    }
-
-                    // get new player in game wait status
-                    var results = await axios.get('/game/show/' + that.props.room).then(function(response) {
-                        return response;
-                    });
-                    
-                    var rounds = that.state.rounds.concat({status: results.data.game.status})
-                    
-                    that.setState({
-                        players: results.data.players,
-                        rounds: rounds
-                    }); 
+                    } 
                 }
             
                 if(payload.event == 'publish') {                
@@ -69,12 +58,7 @@ class Game extends Component {
             
                 that.setState(result)
             });
-        })
-
-        // Add new player in game
-        var results = await axios.get('/game/new-player/' + this.props.room).then(function(response) {
-            return response;
-        });
+        }) 
         
         // Get game at this moment
         // var results = await axios.get('/game/show/' + this.props.room).then(function(response) {
@@ -92,7 +76,7 @@ class Game extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         // console.log(this.state.rounds, prevProps)
-        if(this.state.rounds !== prevProps.rounds) {
+        if(this.state.players !== prevProps.rounds) {
             // this.state.rounds.concat({msg: select});
 
             // let rounds = this.state.rounds
@@ -121,7 +105,10 @@ class Game extends Component {
                         <section className='wrap-game'>
                             <header className='game-header'>
                                 <nav>
-                                    <ul className='game-nav d-flex justify-content-end align-items-center'>
+                                    <ul className='game-nav d-flex justify-content-end align-items-center'>                                     
+                                        {players.map((player, index) => {
+                                            return <li key={index}>{player.email}</li>
+                                        })}
                                         <li>G {room}</li>
                                         <li><button onClick={this.props.clickHandler}><Icon icon='close'/></button></li>
                                     </ul>
@@ -130,7 +117,7 @@ class Game extends Component {
                             <div className='game-content'>
                                 <ul>                                        
                                     {rounds.map((round, index) => {
-                                        return <Round key={index} round={round} players={players} />
+                                        return <Round key={index} round={round} />
                                     })}
                                 </ul>
                             </div>

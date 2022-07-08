@@ -182,4 +182,14 @@ class Game
 
         return $this;
     } 
+
+    public function toArray(bool $public = false): array
+    {
+        $output = [
+            'id' => $this->id,
+            'name' => $this->name
+        ];
+
+        return $output;
+    }
 }

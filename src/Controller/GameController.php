@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class GameController extends AbstractController
 {
     /**
-     * @Route("/game", name="app_game")
+     * @Route("/games", name="app_games")
      */
     public function index(GameRepository $gameRepo): Response
     {
@@ -35,6 +35,30 @@ class GameController extends AbstractController
         $datas['game'] = $gameRepo->find($id);
         $datas['players'] = $userRepo->findBy(['id' => $datas['game']->getPlayers()]);
         return $this->json($datas);
+    }
+    /**
+     * @Route("/game/play/{id}", name="app_game_play")
+     */
+    public function play(GameRepository $gameRepo, UserRepository $userRepo, EntityManagerInterface $entityManager, $id): Response
+    {
+        $datas = [];
+
+        $game = $gameRepo->find($id);
+        
+        if(!in_array($this->getUser()->getId(), $game->getPlayers())):
+            $players = array_merge($game->getPlayers(), [$this->getUser()->getId()]);
+            $game->setPlayers($players);
+
+            $entityManager->persist($game); 
+            $entityManager->flush();
+            
+        endif;
+
+        $datas['game'] = $game->toArray();
+        $datas['room'] = $id;
+        $datas['players'] = $userRepo->getArray(['id' => $game->getPlayers()]);
+        
+        return $this->render('game/index.html.twig', $datas);
     }
 
     /**
