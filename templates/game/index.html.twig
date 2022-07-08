@@ -3,5 +3,10 @@
 {% block title %}Hello GameController!{% endblock %}
 
 {% block body %}
-    <div id="wgame" data-room='{{ room }}' data-game='{{ game | json_encode }}' data-players='{{ players | json_encode }}'></div>
+    <div id="wgame" 
+        data-room='{{ room }}' 
+        data-game='{{ game | json_encode }}' 
+        data-players='{{ players | json_encode }}'
+        data-user="{{ app.user.toArray | json_encode }}"
+    ></div>
 {% endblock %}

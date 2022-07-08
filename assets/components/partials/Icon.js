@@ -10,6 +10,8 @@ import User from '../../pictures/svg/user-solid.svg';
 import UserGroup from '../../pictures/svg/user-group-solid.svg';
 import CloseFill from '../../pictures/svg/x-circle-fill.svg';
 import Close from '../../pictures/svg/x.svg'; 
+import Ok from '../../pictures/svg/thumbs-up-solid.svg';
+import Nok from '../../pictures/svg/thumbs-down-solid.svg'; 
 
 class Icon extends Component {
     
@@ -29,7 +31,8 @@ class Icon extends Component {
         this.state.allSvg['user'] = User
         this.state.allSvg['usergroup'] = UserGroup
         this.state.allSvg['closefill'] = CloseFill
-        this.state.allSvg['close'] = Close
+        this.state.allSvg['ok'] = Ok
+        this.state.allSvg['nok'] = Nok
     }
     
     componentDidMount() {

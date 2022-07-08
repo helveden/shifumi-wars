@@ -51,8 +51,9 @@ if(document.getElementById('wgame') !== null) {
         var game = JSON.parse(document.getElementById('wgame').dataset.game);
         var players = JSON.parse(document.getElementById('wgame').dataset.players);
         var room = document.getElementById('wgame').dataset.room;
-        console.log(game, players)
-        var elt = <Game room={room} game={game} players={players} />;
+        var user = JSON.parse(document.getElementById('wgame').dataset.user);
+        
+        var elt = <Game room={room} game={game} players={players} currentuser={user} />;
     } else {
         var elt = <Game />; 
     }

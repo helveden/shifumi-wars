@@ -12,7 +12,8 @@ class Round extends Component {
         
         this.state = {
             players: props.players,
-            round: props.round
+            round: props.round,
+            status: 1
         }
         
     }
@@ -55,9 +56,9 @@ class Round extends Component {
     render() {
         const { t } = this.props;
         const round = this.state.round
-        const status = round.status
+        const status = this.state.status
         const players = this.state.players
-
+        
         return (
             <>
                 { status == 1 ?

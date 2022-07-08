@@ -12,11 +12,13 @@ class Game extends Component {
     
     constructor(props) {
         super(props);
-        console.log(props)
+        
         this.state = {
             room: props.room,
             players: props.players,
             currentuser: props.currentuser,
+            currentRound: 0,
+            isAuthor: null, // préparation de l'hote < Servira de tests car je m'attend à des logs en doublons, voir démultiplié à cause de la publication WS avec l'hote de la partie, seul lui envoie les données au WS
             rounds: [],
             ws: WS.connect('ws://127.0.0.1:8080')
         };
@@ -42,20 +44,25 @@ class Game extends Component {
             
             session.subscribe('acme/channel/' + that.state.room, async function (uri, payload) {
                 var result = {};
+                
                 console.log(payload)
-                if(payload.event == 'subscribe') {                
+
+                if(payload.event == 'subscribe') {
                     result = {
+                        currentuser: {...that.state.currentuser, ...{user_id: payload.user_id}}
                         // contacts: that.state.contacts.concat(payload.user_id)
                     } 
+
+                    // à replacer ailleur car ça génère du doublon
+                    that.addRound('log', {msg: that.state.currentuser.email + payload.msg, user: result.currentuser})
                 }
             
                 if(payload.event == 'publish') {                
                     result = {
                         rounds: that.state.rounds.concat(payload),
-                        // newcomment: ''
                     }
                 }
-            
+
                 that.setState(result)
             });
         }) 
@@ -75,7 +82,7 @@ class Game extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        // console.log(this.state.rounds, prevProps)
+        
         if(this.state.players !== prevProps.rounds) {
             // this.state.rounds.concat({msg: select});
 
@@ -86,9 +93,35 @@ class Game extends Component {
         }
     }
 
-    addRound(select) {
-        
-        this.state.ws.session.publish('acme/channel/' + this.props.room, { msg: select, user: this.props.currentuser });
+    addRound(type, params) {
+        if(type == 'log') {
+            this.state.ws.session.publish('acme/channel/' + this.props.room, { type: type, msg: params.msg, params: params });
+        } else if(type == 'ready') {
+            this.state.ws.session.publish('acme/channel/' + this.props.room, { type: type, msg: this.state.currentuser.email + ' est pret à jouer', params: this.state });            
+        } else if(type == 'not-ready') {
+            this.state.ws.session.publish('acme/channel/' + this.props.room, { type: type, msg: this.state.currentuser.email + ' n\'est pas encore pret à jouer', params: this.state });
+        } else if(type == 'after-ready') {
+            // ici on va en DB pour récupérer la game 
+            // On vérifie que tous les joueurs sont prèt et on créer le premier round puis on affiche
+            
+
+            // Si tous les joueurs sont pret on affiche ici le mode play round avec le current round et son id
+        } else if(type == 'choice') {
+            
+            // Une fois les joueurs près, le round 1 à été créé
+            this.state.ws.session.publish('acme/channel/' + this.props.room, { type: type, msg: this.state.currentuser.email + ' à validé son choix', params: params });
+
+            // à chaque fois qu'un joueur valide son choix
+            // on va en DB et on vérifie que le round est terminé > Si terminé, le round suivant est créé et l'id est retourné également si ce n'est pas encore la fin du jeu
+            // on retourne le résultat du round et le nouvel id du prochain round
+        } else if(type == 'result-round') {
+            // On affiche le résultat de la round
+            this.state.ws.session.publish('acme/channel/' + this.props.room, { type: type, msg: this.state.currentuser.email + ' à validé son choix', params: params });
+
+        } else if(type == 'result-game') {
+            // Si plus aucun rounds est créés, les résultat de la partie son retournés
+            // Les joueurs peuvent se sérrer la main et/ou quitter la page pour retourner à l'accueil
+        }
 
     }
     
@@ -123,9 +156,11 @@ class Game extends Component {
                             </div>
                             <footer>
                                 <ul className='game-actions d-flex justify-content-center align-items-center'>
-                                    <li><button onClick={() => {this.addRound('paper')}}><Icon icon='paper'/></button></li>
-                                    <li><button onClick={() => {this.addRound('rock')}}><Icon icon='rock'/></button></li>
-                                    <li><button onClick={() => {this.addRound('scissors')}}><Icon icon='scissors'/></button></li>
+                                    <li><button onClick={() => {this.addRound('ready')}}><Icon icon='ok'/></button></li>
+                                    <li><button onClick={() => {this.addRound('not-ready')}}><Icon icon='nok'/></button></li>
+                                    <li><button onClick={() => {this.addRound('choice', 'paper')}}><Icon icon='paper'/></button></li>
+                                    <li><button onClick={() => {this.addRound('choice', 'rock')}}><Icon icon='rock'/></button></li>
+                                    <li><button onClick={() => {this.addRound('choice', 'scissors')}}><Icon icon='scissors'/></button></li>
                                 </ul>
                             </footer>
                         </section>

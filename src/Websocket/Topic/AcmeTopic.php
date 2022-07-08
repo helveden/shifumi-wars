@@ -8,6 +8,8 @@ use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
 
+use App\Manager\ManageGame;
+
 final class AcmeTopic implements TopicInterface
 {
     /** @var ClientManipulatorInterface */
@@ -93,6 +95,13 @@ final class AcmeTopic implements TopicInterface
                 'user_id' => $connection->resourceId
             ]));
         }
+
+
+        // Manage Game Here et envoie des données aux joueurs
+        $manageGame = new ManageGame();
+        
+
+        // On retourn les résultats
         /*
         $topic->broadcast(
             [
