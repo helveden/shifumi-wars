@@ -31,6 +31,7 @@ class Icon extends Component {
         this.state.allSvg['user'] = User
         this.state.allSvg['usergroup'] = UserGroup
         this.state.allSvg['closefill'] = CloseFill
+        this.state.allSvg['close'] = Close
         this.state.allSvg['ok'] = Ok
         this.state.allSvg['nok'] = Nok
     }

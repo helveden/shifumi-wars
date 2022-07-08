@@ -99,16 +99,16 @@ final class AcmeTopic implements TopicInterface
 
         // Manage Game Here et envoie des données aux joueurs
         $manageGame = new ManageGame();
-        
+
 
         // On retourn les résultats
-        /*
+        
         $topic->broadcast(
             [
-                'msg' => $event
+                'msg' => 'test de l\'envoi du message'
             ]
         );
-        */
+        
     }
 
     /**
