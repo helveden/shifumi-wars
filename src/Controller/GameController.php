@@ -12,10 +12,20 @@ use App\Entity\Game;
 use App\Repository\GameRepository;
 use App\Repository\UserRepository;
 
+
+use App\Service\GameFactory;
+
 use Symfony\Component\Serializer\SerializerInterface; 
 
 class GameController extends AbstractController
 {
+    private $gameFactory;
+
+    public function __construct(GameFactory $gameFactory)
+    {
+        $this->gameFactory = $gameFactory;
+    }
+
     /**
      * @Route("/games", name="app_games")
      */
@@ -67,21 +77,8 @@ class GameController extends AbstractController
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $datas = [];
-        $game = new Game();
         $req = (array) json_decode($request->getContent());
-
-        $game->setName($req['name']);
-        $game->setMode($req['mode']);
-        //$game->setType($req['type']);
-        $game->setType(1);
-        $game->setStatus(1);
-        $game->setWellStatus(1);
-        // $game->setPassword($req['password']);
-
-        $game->setUser($this->getUser());
-
-        $entityManager->persist($game);
-        $entityManager->flush();
+        $game = $this->gameFactory->createGame($req);
 
         $datas['game'] = $game->getId();
         // Insertion du joueur dans le jeux
