@@ -20,9 +20,12 @@ class Game extends Component {
             currentRound: 0,
             isAuthor: null, // préparation de l'hote < Servira de tests car je m'attend à des logs en doublons, voir démultiplié à cause de la publication WS avec l'hote de la partie, seul lui envoie les données au WS
             rounds: [],
+            isLock: false,
+            isReady: false,
             ws: WS.connect('ws://127.0.0.1:8080')
         };
         
+        this.addAction = this.addAction.bind(this);
         this.addRound = this.addRound.bind(this);
     }
     
@@ -93,13 +96,41 @@ class Game extends Component {
         }
     }
 
+    async addAction(action, params) {
+        var newState = {}
+        if(action == 'ready') {
+            var res = await axios.post('/game/update/' + this.state.room, {
+                action: action
+            })
+
+            console.log(res)
+
+            newState = {
+                isReady: true
+            }
+        }
+
+        this.setState(newState);
+    }
+
     addRound(type, params) {
         if(type == 'log') {
-            this.state.ws.session.publish('acme/channel/' + this.props.room, { type: type, msg: params.msg, params: params });
+            this.state.ws.session.publish('acme/channel/' + this.props.room, { 
+                msg: params.msg, 
+                type: type, 
+                params: params 
+            });
+
         } else if(type == 'ready') {
-            this.state.ws.session.publish('acme/channel/' + this.props.room, { type: type, msg: this.state.currentuser.email + ' est pret à jouer', params: this.state });            
+            this.state.ws.session.publish('acme/channel/' + this.props.room, { 
+                msg: this.state.currentuser.email + ' est pret à jouer', 
+                type: type, 
+                params: this.state 
+            });
+            
         } else if(type == 'not-ready') {
             this.state.ws.session.publish('acme/channel/' + this.props.room, { type: type, msg: this.state.currentuser.email + ' n\'est pas encore pret à jouer', params: this.state });
+
         } else if(type == 'after-ready') {
             // ici on va en DB pour récupérer la game 
             // On vérifie que tous les joueurs sont prèt et on créer le premier round puis on affiche
@@ -130,7 +161,9 @@ class Game extends Component {
         const rounds = this.state.rounds
         const room = this.props.room
         const players = this.state.players
-        
+        const isLock = this.state.isLock
+        const isReady = this.state.isReady
+
         return (
             <>
                 <div id='game'>
@@ -156,11 +189,49 @@ class Game extends Component {
                             </div>
                             <footer>
                                 <ul className='game-actions d-flex justify-content-center align-items-center'>
-                                    <li><button onClick={() => {this.addRound('ready')}}><Icon icon='ok'/></button></li>
-                                    <li><button onClick={() => {this.addRound('not-ready')}}><Icon icon='nok'/></button></li>
-                                    <li><button onClick={() => {this.addRound('choice', 'paper')}}><Icon icon='paper'/></button></li>
-                                    <li><button onClick={() => {this.addRound('choice', 'rock')}}><Icon icon='rock'/></button></li>
-                                    <li><button onClick={() => {this.addRound('choice', 'scissors')}}><Icon icon='scissors'/></button></li>
+                                    { !isReady ?
+                                        <>
+                                            <li>
+                                                <button onClick={() => {this.addAction('ready')}}>
+                                                    <Icon icon='ok'/>
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button onClick={() => {this.addRound('not-ready')}}>
+                                                    <Icon icon='nok'/>
+                                                </button>
+                                            </li>
+                                        </>
+                                        : null
+                                    }
+                                    { !isLock && isReady ?
+                                        <>
+                                            <li>
+                                                <button onClick={() => {this.addRound('choice', 'paper')}}>
+                                                    <Icon icon='paper'/>
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button onClick={() => {this.addRound('choice', 'rock')}}>
+                                                    <Icon icon='rock'/>
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button onClick={() => {this.addRound('choice', 'scissors')}}>
+                                                    <Icon icon='scissors'/>
+                                                </button>
+                                            </li>
+                                        </>
+                                        : null 
+                                    }
+                                    { isLock ?
+                                        <li>
+                                            <button className='rotate' onClick={() => {this.addRound('loading')}}>
+                                                <Icon icon='loading' />
+                                            </button>
+                                        </li>
+                                        : null
+                                    }
                                 </ul>
                             </footer>
                         </section>

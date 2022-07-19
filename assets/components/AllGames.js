@@ -18,6 +18,8 @@ class AllGames extends Component {
             roomId: 0,
             showCreateGame: false,
             games: [],
+            allmode: props.allmode,
+            alltype: props.alltype,
             filters: {}
         };
 
@@ -34,11 +36,15 @@ class AllGames extends Component {
     }
     
     async componentDidMount() {
+        await this.getGames();
+    }
+
+    async getGames() {
         // rechercher les parties existantes
         var results = await axios.get('/games').then(function(response) {
             return response;
         });
-        
+
         if(results.data.games.length > 0) {            
             this.setState({
                 games: results.data.games
@@ -81,18 +87,21 @@ class AllGames extends Component {
     
     render() {
         const { t } = this.props;
-        const showCreateGame = this.state.showCreateGame  
+        const games = this.state.games
         const openGame = this.state.openGame
         const roomCurrent = this.state.roomId
-        const games = this.state.games
+        const showCreateGame = this.state.showCreateGame
+
+        const alltype = this.state.alltype  
+        const allmode = this.state.allmode 
         
         return (
             <>
                 { openGame && roomCurrent > 0 ? 
                     <>
                         <Game
-                            currentuser={this.props.currentuser}
                             room={roomCurrent}
+                            currentuser={this.props.currentuser}
                             clickHandler={this.handleCloseGame}
                         />
                     </>
@@ -115,36 +124,38 @@ class AllGames extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                    {games.map((game, index) => {
-                                        
-                                        return <tr key={index}>
-                                                    <td>{game.name}</td>
-                                                    <td>
-                                                        <ul className='d-flex align-items-center game-name-list'>
-                                                            <li>Classic - Tournoi - Well - No password</li>
-                                                            <li><Icon icon='paper'/></li>
-                                                            <li><Icon icon='rock'/></li>
-                                                            <li><Icon icon='scissors'/></li>
-                                                            <li><Icon icon='spock'/></li>
-                                                            <li><Icon icon='lizard'/></li>
-                                                        </ul>
-                                                    </td>
-                                                    <td><span className='d-flex align-items-center'>2 / 8&nbsp;<Icon icon='usergroup'/></span></td>
-                                                    <td>
-                                                        <ul className='d-flex'>
-                                                            <li>
-                                                                <button onClick={() => {this.handleOpenGame(game.id)}}>{t('allgames.table.actions.show')}</button>
-                                                            </li>
-                                                            <li>
-                                                                <button>{t('allgames.table.actions.edit')}</button>
-                                                            </li>
-                                                            <li>
-                                                                <button>{t('allgames.table.actions.meet')}</button>
-                                                            </li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                    })}
+                                {games.map((game, index) => {
+                                    
+                                    return <tr key={index}>
+                                                <td>{game.name}</td>
+                                                <td>
+                                                    <ul className='d-flex align-items-center game-name-list'>
+                                                        <li>Classic - Tournoi - Well - No password</li>
+                                                        <li><Icon icon='paper'/></li>
+                                                        <li><Icon icon='rock'/></li>
+                                                        <li><Icon icon='scissors'/></li>
+                                                        <li><Icon icon='spock'/></li>
+                                                        <li><Icon icon='lizard'/></li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <span className='d-flex align-items-center'>2 / 8&nbsp;<Icon icon='usergroup'/></span>
+                                                </td>
+                                                <td>
+                                                    <ul className='d-flex'>
+                                                        <li>
+                                                            <button onClick={() => {this.handleOpenGame(game.id)}}>{t('allgames.table.actions.show')}</button>
+                                                        </li>
+                                                        <li>
+                                                            <button>{t('allgames.table.actions.edit')}</button>
+                                                        </li>
+                                                        <li>
+                                                            <button>{t('allgames.table.actions.meet')}</button>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                })}
                             </tbody>
                         </table>
                         <Modal show={showCreateGame} onHide={this.handleCloseCreateGame}>
@@ -152,7 +163,10 @@ class AllGames extends Component {
                                 <Modal.Title>{t('game.create')}</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <FormGame />
+                                <FormGame 
+                                    allmode={allmode}
+                                    alltype={alltype}
+                                />
                             </Modal.Body>
                             <Modal.Footer>
                                 

@@ -51,5 +51,14 @@ game:
         empty: Choose a mode
         classic: Classic
         extend: Extented
+    type: 
+      label: Make a type
+      small:
+      options:
+        empty: Choose a type
+        practice: Practice
+        1v1: 1v1
+        tournoi: Tournoi
+        survival: Survival
 
 

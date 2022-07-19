@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use App\Utils\GameUtils;
+
 /**
  * @ORM\Entity(repositoryClass=GameRepository::class)
  */
@@ -58,6 +60,16 @@ class Game
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="games")
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $players_info = [];
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nbPlayers;
 
     public function __construct()
     {
@@ -187,9 +199,49 @@ class Game
     {
         $output = [
             'id' => $this->id,
-            'name' => $this->name
+            'name' => $this->name,
+            'players_info' => $this->players_info
         ];
 
         return $output;
+    }
+
+    public function getPlayersInfo(): ?array
+    {
+        return $this->players_info;
+    }
+
+    public function setPlayersInfo(?array $players_info): self
+    {
+        $this->players_info = $players_info;
+
+        return $this;
+    }
+
+    public function getNbPlayers(): ?int
+    {
+        return $this->nbPlayers;
+    }
+
+    public function setNbPlayers(int $nbPlayers): self
+    {
+        $this->nbPlayers = $nbPlayers;
+
+        return $this;
+    }
+
+    public static function getAllMode(): array
+    {
+        return GameUtils::ALL_MODE;
+    }
+
+    public static function getAllType(): array
+    {
+        return GameUtils::ALL_TYPE;
+    }
+
+    public static function getAllChoice(): array
+    {
+        return GameUtils::ALL_CHOICE;
     }
 }

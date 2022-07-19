@@ -78,33 +78,28 @@ class GameController extends AbstractController
     {
         $datas = [];
         $req = (array) json_decode($request->getContent());
-        $game = $this->gameFactory->createGame($req);
+        $game = $this->gameFactory->saveGame($req);
 
-        $datas['game'] = $game->getId();
+        $datas['game'] = $game;
         // Insertion du joueur dans le jeux
 
         return $this->json($datas);
     }
 
     /**
-     * @Route("/game/new-player/{id}", name="app_game_new_player")
+     * @Route("/game/update/{id}", name="app_game_update")
      */
-    public function newPlayer(Request $request, EntityManagerInterface $entityManager, GameRepository $gameRepo, $id): Response
+    public function update(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        $id
+    ): Response
     {
         $datas = [];
-
-        // dump($gameRepo->find($id));die;
-        $game = $gameRepo->find($id);
-        if(!in_array($this->getUser()->getId(), $game->getPlayers())):
-            $players = array_merge($game->getPlayers(), [$this->getUser()->getId()]);
-            $game->setPlayers($players);
-
-            $entityManager->persist($game); 
-            $entityManager->flush();
-        else:
-            $datas['msg'] = 'Deja inscrit';
-        endif;
-        // Insertion du joueur dans le jeux
+        $req = (array) json_decode($request->getContent());
+        $req['id'] = $id;
+        $datas['game'] = $this->gameFactory->saveGame($req);
+        
 
         return $this->json($datas);
     }

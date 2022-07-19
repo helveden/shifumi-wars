@@ -34,10 +34,11 @@ if(document.getElementById('default') !== null) {
 if(document.getElementById('allgames') !== null) {
     var root = createRoot(document.getElementById('allgames'));
     if(typeof document.getElementById('allgames').dataset.user !== 'undefined') {
-        var datas = [];
+        var allmode = JSON.parse(document.getElementById('allgames').dataset.allmode);
+        var alltype = JSON.parse(document.getElementById('allgames').dataset.alltype);
         var user = JSON.parse(document.getElementById('allgames').dataset.user);
         
-        var elt = <AllGames datas={datas} currentuser={user} />;
+        var elt = <AllGames allmode={allmode} alltype={alltype} currentuser={user} />;
     } else {
         var elt = <AllGames />; 
     }
