@@ -13,6 +13,7 @@ import CloseFill from '../../pictures/svg/x-circle-fill.svg';
 import Close from '../../pictures/svg/x.svg'; 
 import Ok from '../../pictures/svg/thumbs-up-solid.svg';
 import Nok from '../../pictures/svg/thumbs-down-solid.svg'; 
+import Loading from '../../pictures/svg/spinner-solid.svg'; 
 
 class Icon extends Component {
     

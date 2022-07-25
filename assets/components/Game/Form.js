@@ -7,11 +7,12 @@ class Form extends Component {
     
     constructor(props) {
         super(props);
-        
         this.state = {
             name: "",
             password: "",
             mode: 1,
+            allmode: props.allmode,
+            alltype: props.alltype,
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -52,7 +53,10 @@ class Form extends Component {
     
     render() {
         const { t } = this.props;
+        const alltype = this.state.alltype  
+        const allmode = this.state.allmode
 
+        console.log(Object.values(allmode))
         return (
             <>
                 <form
@@ -86,10 +90,10 @@ class Form extends Component {
                             className="form-control"
                             value={this.state.mode}
                             onChange={this.handleChange}
-                        >
-                            <option value="0">{t('game.fields.mode.options.empty')}</option>
-                            <option value="1">{t('game.fields.mode.options.classic')}</option>
-                            <option value="2">{t('game.fields.mode.options.extend')}</option>
+                        >                            
+                            {Object.values(allmode).map((mode, index) => {
+                                return <option key={index} value={index}>{t(mode)}</option>
+                            })}
                         </select>
                     </div>
                     <div className="form-group">

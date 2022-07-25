@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use App\Entity\Game;
 class DefaultController extends AbstractController
 {
     /**
@@ -13,8 +14,11 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController',
-        ]);
+        $datas = [];
+        $datas['allmode'] = Game::getAllMode();
+        $datas['alltype'] = Game::getAllType();
+        $datas['allchoice'] = Game::getAllChoice();
+        
+        return $this->render('default/index.html.twig', $datas);
     }
 }

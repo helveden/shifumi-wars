@@ -12,10 +12,20 @@ use App\Entity\Game;
 use App\Repository\GameRepository;
 use App\Repository\UserRepository;
 
+
+use App\Service\GameFactory;
+
 use Symfony\Component\Serializer\SerializerInterface; 
 
 class GameController extends AbstractController
 {
+    private $gameFactory;
+
+    public function __construct(GameFactory $gameFactory)
+    {
+        $this->gameFactory = $gameFactory;
+    }
+
     /**
      * @Route("/games", name="app_games")
      */
@@ -67,47 +77,29 @@ class GameController extends AbstractController
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $datas = [];
-        $game = new Game();
         $req = (array) json_decode($request->getContent());
+        $game = $this->gameFactory->saveGame($req);
 
-        $game->setName($req['name']);
-        $game->setMode($req['mode']);
-        //$game->setType($req['type']);
-        $game->setType(1);
-        $game->setStatus(1);
-        $game->setWellStatus(1);
-        // $game->setPassword($req['password']);
-
-        $game->setUser($this->getUser());
-
-        $entityManager->persist($game);
-        $entityManager->flush();
-
-        $datas['game'] = $game->getId();
+        $datas['game'] = $game;
         // Insertion du joueur dans le jeux
 
         return $this->json($datas);
     }
 
     /**
-     * @Route("/game/new-player/{id}", name="app_game_new_player")
+     * @Route("/game/update/{id}", name="app_game_update")
      */
-    public function newPlayer(Request $request, EntityManagerInterface $entityManager, GameRepository $gameRepo, $id): Response
+    public function update(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        $id
+    ): Response
     {
         $datas = [];
-
-        // dump($gameRepo->find($id));die;
-        $game = $gameRepo->find($id);
-        if(!in_array($this->getUser()->getId(), $game->getPlayers())):
-            $players = array_merge($game->getPlayers(), [$this->getUser()->getId()]);
-            $game->setPlayers($players);
-
-            $entityManager->persist($game); 
-            $entityManager->flush();
-        else:
-            $datas['msg'] = 'Deja inscrit';
-        endif;
-        // Insertion du joueur dans le jeux
+        $req = (array) json_decode($request->getContent());
+        $req['id'] = $id;
+        $datas['game'] = $this->gameFactory->saveGame($req);
+        
 
         return $this->json($datas);
     }

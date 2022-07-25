@@ -1,0 +1,22 @@
+parameters:
+    level: max
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    inferPrivatePropertyTypeFromConstructor: true
+    excludePaths:
+        - src/Command/Import/Old
+        - src/Command/Import/ImportUsersCommand.php
+        - src/Command/Temp
+        - src/Controller/DemoController.php
+        - src/Controller/LiveController.php
+        - src/Controller/ResultsController.php
+        - src/Controller/TournamentController.php
+        - src/DataCollector/SportRadarCollector.php
+        - src/Migrations
+        - src/Service/Connector
+        - src/Service/Provider
+        - src/Service/MatchConverter.php
+    ignoreErrors:
+        -
+            message: '#Negated boolean expression is always false.#'
+            path: src/Sport/Connector/Enetpulse.php
